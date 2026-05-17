@@ -1,12 +1,12 @@
 # RAG Evaluation Dataset — Cẩm nang học vụ cao học UIT 2025
 
-Bộ dữ liệu đánh giá (test set) cho hệ thống **Retrieval-Augmented Generation (RAG)** trên tài liệu Cẩm nang học vụ sau đại học — Trường Đại học Công nghệ Thông tin (UIT), khóa 20 năm 2025.
+Bộ dữ liệu đánh giá cho hệ thống **Retrieval-Augmented Generation (RAG)** trên tài liệu Cẩm nang học vụ sau đại học — Trường Đại học Công nghệ Thông tin (UIT), khóa 20 năm 2025.
 
 ## Nguồn dữ liệu
 
 | Mục | Chi tiết |
 |---|---|
-| **Tài liệu gốc** | `cam_nang_sau_dai_hoc_2025_0.pdf` |
+| **Tài liệu gốc** | `cam_nang_sau_dai_hoc_2025` |
 | **Ngôn ngữ** | Tiếng Việt |
 | **Phạm vi** | Quy chế đào tạo trình độ thạc sĩ, khóa 20/2025 |
 
@@ -14,7 +14,7 @@ Bộ dữ liệu đánh giá (test set) cho hệ thống **Retrieval-Augmented G
 
 - **Tổng số mẫu**: 100
 
-### Phân bố theo `category`
+### Phân bố theo `danh mục`
 
 | Category | Số lượng | Mô tả |
 |---|:---:|---|
@@ -24,29 +24,13 @@ Bộ dữ liệu đánh giá (test set) cho hệ thống **Retrieval-Augmented G
 | `scenario` | 15 | Câu hỏi tình huống giả định, cần suy luận |
 | `out_of_scope` | 10 | Câu hỏi nằm ngoài phạm vi cẩm nang |
 
-### Phân bố theo `difficulty`
+### Phân bố theo `độ khó`
 
 | Difficulty | Số lượng |
 |---|:---:|
 | `easy` | 17 |
 | `medium` | 63 |
 | `hard` | 20 |
-
-### Phân bố theo `expected_behavior`
-
-| Behavior | Số lượng |
-|---|:---:|
-| `answer_from_context` | 90 |
-| `refuse_or_say_not_enough_info` | 10 |
-
-## Định dạng file
-
-Dataset được cung cấp ở **2 định dạng** (nội dung giống nhau):
-
-| File | Định dạng | Ghi chú |
-|---|---|---|
-| `handbook_test.jsonl` | JSON Lines | Mỗi dòng là 1 JSON object; `must_contain` và `must_not_contain` là **mảng** |
-| `handbook_test.csv` | CSV | `must_contain` và `must_not_contain` phân cách bởi dấu `\|` |
 
 ## Schema
 
@@ -73,9 +57,3 @@ Một mẫu được đánh giá **Pass** khi thỏa mãn **tất cả** điều
 3. **Completeness** — Câu trả lời chứa **phần lớn** các từ khóa trong `must_contain`.
 4. **Safety** — Câu trả lời **không chứa** thông tin trong `must_not_contain`.
 5. **Refusal** — Với nhóm `out_of_scope` (`expected_behavior = refuse_or_say_not_enough_info`), model phải **từ chối trả lời** hoặc nói rõ không đủ thông tin, thay vì tự suy đoán/bịa đặt.
-
-## Lưu ý
-
-- Nhóm `out_of_scope` (HV_091 → HV_100) có `source_pages` luôn để trống và `source_quote` hầu hết để trống — **đây là thiết kế có chủ đích** vì câu hỏi nằm ngoài phạm vi tài liệu.
-- Một số mẫu `out_of_scope` (ví dụ: HV_096, HV_098, HV_099) vẫn có `source_section` trỏ tới mục liên quan trong cẩm nang, vì đây là câu hỏi hỏi **chi tiết không được đề cập** dù chủ đề có tồn tại (ví dụ: hỏi mức tiền cụ thể khi cẩm nang chỉ nói chung chung).
-- File CSV có **BOM** (`\xEF\xBB\xBF`) ở đầu file — khi đọc bằng Python nên dùng encoding `utf-8-sig`.
