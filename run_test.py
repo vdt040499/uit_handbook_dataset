@@ -33,7 +33,7 @@ def query_rag_system(question: str) -> dict:
             "raw_response": data
         }
     except Exception as e:
-        print(f"Lỗi khi query RAG: {e}")
+        print(f"Error querying RAG API: {e}")
         return {"answer": "ERROR", "retrieved_context": [], "raw_response": {}}
 
 def run_evaluation():
@@ -43,12 +43,12 @@ def run_evaluation():
     with open(input_file, "r", encoding="utf-8") as f:
         test_data = [json.loads(line) for line in f if line.strip()]
         
-    print(f"Bắt đầu chạy test cho {len(test_data)} mẫu...")
+    print(f"Starting evaluation for {len(test_data)} samples...")
     
     results = []
     with open(output_file, "w", encoding="utf-8") as f_out:
         for idx, sample in enumerate(test_data):
-            print(f"[{idx+1}/{len(test_data)}] Đang xử lý ID: {sample['id']}...")
+            print(f"[{idx+1}/{len(test_data)}] Processing ID: {sample['id']}...")
             
             start_time = time.time()
             rag_output = query_rag_system(sample["question"])
